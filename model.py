@@ -67,8 +67,42 @@ def svm_objective(x, y, params, reg_lambda):
     J = hinge_mean + l2_penalty
     return float(J)
 
-# Step 7 - compute_gradients (not yet solved)
-# TODO: implement
+# Step 7 - compute_gradients
+import numpy as np
+
+def compute_gradients(x, y, params, reg_lambda):
+    """Return {'dw': ndarray shape (n_features,), 'db': float} = gradient of svm_objective."""
+    # TODO: compute the gradient of the SVM objective wrt params['w'] and params['b'].
+    """
+    计算SVM子梯度 dw, db
+    X: (n_samples, n_features)
+    y: (n_samples,) ∈ {+1,-1}
+    params: {'w':w, 'b':b}, w: (n_features,)
+    reg_lambda: λ 正则系数
+    return {'dw': np.ndarray, 'db': float}
+    """
+    w = params['w']
+    b = params['b']
+    n = x.shape[0]
+
+    # 1. 计算所有样本得分
+    scores = x @ w + b
+
+    # 2. margin向量 m_i = 1 - y_i * s_i
+    margins = 1.0 - y * scores
+
+    # 3. 激活样本掩码 m_i > 0
+    mask = (margins > 0)   # boolean数组 shape(n_samples,)
+
+    # 4. 计算dw
+    sum_yixi = x.T @ (mask * y)   # ∑_{m_i>0} y_i x_i
+    dw = (-1.0 / n) * sum_yixi + 2 * reg_lambda * w
+
+    # 5. 计算db
+    sum_yi = np.sum(mask * y)     # ∑_{m_i>0} y_i
+    db = (-1.0 / n) * sum_yi
+
+    return {"dw": dw, "db": float(db)}
 
 # Step 8 - apply_update (not yet solved)
 # TODO: implement
