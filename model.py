@@ -44,10 +44,28 @@ def predict_from_scores(scores):
 # Step 5 - hinge_loss_example
 def hinge_loss_example(score, y):
     # TODO: return the hinge loss for a single example with raw score `score` and label y in {-1, +1}.
-    return max(0.0,1-y*score)
+    return np.maximum(0.0,1-y*score)
 
-# Step 6 - svm_objective (not yet solved)
-# TODO: implement
+# Step 6 - svm_objective
+def svm_objective(x, y, params, reg_lambda):
+    # TODO: return mean hinge loss over the dataset plus reg_lambda * (w dot w)
+  
+
+    # 步骤1：计算所有样本得分 s = X @ w + b
+    scores = compute_scores(x,params)
+
+    # 步骤2：向量化批量铰链损失
+    hinge_all = hinge_loss_example(scores,y)
+
+    # 步骤3：铰链损失取均值，除以样本数n
+    hinge_mean = np.mean(hinge_all)
+
+    # 步骤4：L2正则项，只惩罚w，b不加！ w·w = ||w||²
+    l2_penalty = reg_lambda * np.dot(w, w)
+
+    # 总目标
+    J = hinge_mean + l2_penalty
+    return float(J)
 
 # Step 7 - compute_gradients (not yet solved)
 # TODO: implement
