@@ -49,7 +49,7 @@ def hinge_loss_example(score, y):
 # Step 6 - svm_objective
 def svm_objective(x, y, params, reg_lambda):
     # TODO: return mean hinge loss over the dataset plus reg_lambda * (w dot w)
-  
+    w = params['w']
 
     # 步骤1：计算所有样本得分 s = X @ w + b
     scores = compute_scores(x,params)
