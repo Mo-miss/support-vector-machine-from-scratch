@@ -104,8 +104,24 @@ def compute_gradients(x, y, params, reg_lambda):
 
     return {"dw": dw, "db": float(db)}
 
-# Step 8 - apply_update (not yet solved)
-# TODO: implement
+# Step 8 - apply_update
+def apply_update(params, grads, learning_rate):
+    # TODO: return a new params dict after one gradient-descent step on 'w' and 'b'.
+    w_old = params['w']
+    b_old = params['b']
+
+    dw = grads['dw']
+    db = grads['db']
+
+    # 梯度下降更新：w = w - η * dw
+    w_new = w_old - learning_rate * dw
+    b_new = float(b_old - learning_rate * db)
+
+    # 返回全新字典，不改动外部输入对象
+    return {
+        "w": w_new,
+        "b": b_new
+    }
 
 # Step 9 - train_svm (not yet solved)
 # TODO: implement
